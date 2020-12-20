@@ -3,8 +3,8 @@ services:
      name: strapi
      env: node
      plan: starter
-     buildCommand: yarn install && yarn build
-     startCommand: rsync -a public/ /data/public/ && yarn start
+     buildCommand: cd server && yarn install && yarn build
+     startCommand: cd server && rsync -a public/ /data/public/ && yarn start
      disk:
        name: strapi-data
        mountPath: /data
