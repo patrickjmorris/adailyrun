@@ -1,140 +1,88 @@
-async function fetchAPI(query, { variables } = {}) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/graphql`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  })
+import GhostContentAPI from '@tryghost/content-api'
+// import GhostAdminAPI from '@tryghost/admin-api'
 
-  const json = await res.json()
-  if (json.errors) {
-    console.error(json.errors)
-    throw new Error('Failed to fetch API')
-  }
+// Create API instance with site credentials
+const api = new GhostContentAPI({
+  url: 'http://localhost:2368',
+  key: 'ec43a61b937024b55e1bd075ff',
+  version: 'v3',
+})
 
-  return json.data
+// const adminapi = new GhostAdminAPI({
+//   url: 'http://localhost:2368/',
+//   // Admin API key goes here
+//   key: '5ec85e5a1c20ab1c9be299e5:0a1933bb1f88d91e06d5a9a0b134f97eb2e419e9f64374d8809930190697c7ca',
+//   version: 'v3'
+// });
+
+export async function getPosts() {
+  return await api.posts
+    .browse({
+      limit: 'all',
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
 
-export async function getPreviewPostBySlug(slug) {
-  const data = await fetchAPI(
-    `
-  query PostBySlug($where: JSON) {
-    posts(where: $where) {
-      slug
-    }
-  }
-  `,
-    {
-      variables: {
-        where: {
-          slug,
-        },
-      },
-    }
-  )
-  return data?.posts[0]
+export async function getHomePosts() {
+  return await api.posts
+    .browse({
+      limit: 3,
+      include: 'tags,authors',
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
 
-export async function getAllPostsWithSlug() {
-  const data = fetchAPI(`
-    {
-      posts {
-        slug
-      }
-    }
-  `)
-  return data?.allPosts
+export async function getSinglePost(postSlug) {
+  return await api.posts
+    .read({
+      slug: postSlug,
+      include: 'tags,authors',
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
 
-export async function getAllPostsForHome(preview) {
-  const data = await fetchAPI(
-    `
-    query Posts($where: JSON){
-      posts(sort: "date:desc", limit: 10, where: $where) {
-        title
-        slug
-        excerpt
-        date
-        coverImage {
-          url
-        }
-        author {
-          name
-          picture {
-            url
-          }
-        }
-      }
-    }
-  `,
-    {
-      variables: {
-        where: {
-          ...(preview ? {} : { status: 'published' }),
-        },
-      },
-    }
-  )
-  return data?.posts
+export async function getAuthors() {
+  return await api.authors
+    .browse({
+      limit: 'all',
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
 
-export async function getPostAndMorePosts(slug, preview) {
-  const data = await fetchAPI(
-    `
-  query PostBySlug($where: JSON, $where_ne: JSON) {
-    posts(where: $where) {
-      title
-      slug
-      content
-      date
-      ogImage: coverImage{
-        url
-      }
-      coverImage {
-        url
-      }
-      author {
-        name
-        picture {
-          url
-        }
-      }
-    }
+export async function getAuthor(authorSlug) {
+  return await api.authors
+    .read({
+      slug: authorSlug,
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+}
 
-    morePosts: posts(sort: "date:desc", limit: 2, where: $where_ne) {
-      title
-      slug
-      excerpt
-      date
-      coverImage {
-        url
-      }
-      author {
-        name
-        picture {
-          url
-        }
-      }
-    }
-  }
-  `,
-    {
-      preview,
-      variables: {
-        where: {
-          slug,
-          ...(preview ? {} : { status: 'published' }),
-        },
-        where_ne: {
-          ...(preview ? {} : { status: 'published' }),
-          slug_ne: slug,
-        },
-      },
-    }
-  )
-  return data
+export async function getTags() {
+  return await api.tags
+    .browse({
+      limit: 'all',
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+}
+
+export async function getTag(tagSlug) {
+  return await api.tags
+    .read({
+      slug: tagSlug,
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
