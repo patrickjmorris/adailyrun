@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import {getHomePosts} from '../lib/api'
+
 const Home = () => (
   <>
     <Head>
@@ -8,7 +9,7 @@ const Home = () => (
       <link rel="icon" href="/favicon.ico" />
       <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>
     </Head>
-
+    
     <div className="relative bg-gray-50 overflow-hidden">
       <div className="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full">
         <div className="relative h-full max-w-screen-xl mx-auto">
@@ -644,7 +645,7 @@ const Home = () => (
             </a>
           </div>
           <p className="mt-8 text-base leading-6 text-gray-400 md:mt-0 md:order-1">
-            &copy; 2020 Workflow, Inc. All rights reserved.
+            &copy; {new Date().getFullYear()}. All rights reserved.
           </p>
         </div>
       </div>
@@ -653,15 +654,7 @@ const Home = () => (
 )
 
 export async function getStaticProps({params}) {
-  // const data = await getSinglePost(params.slug, previewData)
 
-  // return {
-  //   props: {
-  //     preview,
-  //     post: data?.post ?? null,
-  //     morePosts: data?.morePosts ?? [],
-  //   },
-  // }
   const posts = await getHomePosts()
   console.log(posts)
   return {

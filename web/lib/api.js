@@ -1,19 +1,17 @@
 import GhostContentAPI from '@tryghost/content-api'
-// import GhostAdminAPI from '@tryghost/admin-api'
 
 // Create API instance with site credentials
+// const api = new GhostContentAPI({
+//   url: 'http://localhost:2368',
+//   key: 'e85a6a94817a1be37ed056d2af',
+//   version: 'v3',
+// })
+
 const api = new GhostContentAPI({
-  url: 'http://localhost:2368',
-  key: 'ec43a61b937024b55e1bd075ff',
+  url: process.env.NEXT_PUBLIC_GHOST_CMS_URL,
+  key: process.env.NEXT_PUBLIC_GHOST_API_KEY,
   version: 'v3',
 })
-
-// const adminapi = new GhostAdminAPI({
-//   url: 'http://localhost:2368/',
-//   // Admin API key goes here
-//   key: '5ec85e5a1c20ab1c9be299e5:0a1933bb1f88d91e06d5a9a0b134f97eb2e419e9f64374d8809930190697c7ca',
-//   version: 'v3'
-// });
 
 export async function getPosts() {
   return await api.posts
