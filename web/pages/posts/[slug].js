@@ -1,24 +1,23 @@
-import {useRouter} from 'next/router'
-import Head from 'next/head'
+import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
-import Container from '../../components/container'
-import PostBody from '../../components/post-body'
-// import MoreStories from '../../components/more-stories'
-import Header from '../../components/header'
-import PostHeader from '../../components/post-header'
-import SectionSeparator from '../../components/section-separator'
-import Layout from '../../components/layout'
-import {getSinglePost, getPosts} from '../../lib/api'
-import PostTitle from '../../components/post-title'
+import Container from '@/components/container'
+import PostBody from '@/components/post-body'
+import MoreStories from '@/components/more-stories'
+import Header from '@/components/header'
+import PostHeader from '@/components/post-header'
+import SectionSeparator from '@/components/section-separator'
+import Layout from '@/components/layout'
+import { getAllPostsWithSlug, getPostAndMorePosts } from '@/lib/api'
+import PostTitle from '@/components/post-title'
+import Head from 'next/head'
 
-export default function Post({post}) {
+export default function Post({ post, morePosts, preview }) {
   const router = useRouter()
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />
   }
-
   return (
-    <Layout>
+    <Layout preview={preview}>
       <Container>
         <Header />
         {router.isFallback ? (
@@ -27,18 +26,21 @@ export default function Post({post}) {
           <>
             <article>
               <Head>
-                <title>{post.title}</title>
-                <meta property="og:image" content={post.og_image} />
+                <title>
+                  {post.title} | A Daily Run
+                </title>
+                <meta property="og:image" content={post.feature_image} />
               </Head>
               <PostHeader
                 title={post.title}
                 coverImage={post.feature_image}
-                date={post.updated_at}
+                date={post.published_at}
                 author={post.primary_author}
               />
               <PostBody content={post.html} />
             </article>
             <SectionSeparator />
+            {morePosts.length > 0 && <MoreStories posts={morePosts} />}
           </>
         )}
       </Container>
@@ -46,27 +48,21 @@ export default function Post({post}) {
   )
 }
 
-export async function getStaticProps({params}) {
-  // const data = await getSinglePost(params.slug, previewData)
-
-  // return {
-  //   props: {
-  //     preview,
-  //     post: data?.post ?? null,
-  //     morePosts: data?.morePosts ?? [],
-  //   },
-  // }
-  const post = await getSinglePost(params.slug)
-  console.log(post)
+export async function getStaticProps({ params, preview = null }) {
+  const { post, morePosts } = await getPostAndMorePosts(params.slug, preview)
   return {
-    props: {post: post ?? null},
+    props: {
+      preview,
+      post,
+      morePosts: morePosts || [],
+    },
   }
 }
+
 export async function getStaticPaths() {
-  const allPosts = await getPosts()
-  const paths = allPosts?.map((post) => `/posts/${post.slug}`)
+  const allPosts = (await getAllPostsWithSlug()) || []
   return {
-    paths,
+    paths: allPosts.map((post) => `/posts/${post.slug}`),
     fallback: true,
   }
 }

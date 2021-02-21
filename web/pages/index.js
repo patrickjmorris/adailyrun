@@ -218,13 +218,13 @@ const Home = () => (
           <rect width="404" height="784" fill="url(#8b1b5f72-e944-4457-af67-0c6d15a99f38)" />
         </svg>
 
-        <div className="relative lg:grid lg:grid-cols-3 lg:col-gap-8">
+        <div className="relative lg:grid lg:grid-cols-3 lg:gap-x-8">
           <div className="lg:col-span-1">
             <h3 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
               A run for any day for all levels.
             </h3>
           </div>
-          <div className="mt-10 sm:grid sm:grid-cols-2 sm:col-gap-8 sm:row-gap-10 lg:col-span-2 lg:mt-0">
+          <div className="mt-10 sm:grid sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:col-span-2 lg:mt-0">
             <div>
               <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                 <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
