@@ -8,8 +8,8 @@ import GhostContentAPI from '@tryghost/content-api'
 // })
 
 const api = new GhostContentAPI({
-  url: process.env.GHOST_CMS_URL,
-  key: process.env.GHOST_API_KEY,
+  url: process.env.NEXT_GHOST_CMS_URL,
+  key: process.env.NEXT_GHOST_API_KEY,
   version: 'v3',
 })
 
