@@ -13,74 +13,122 @@ const api = new GhostContentAPI({
   version: 'v3',
 })
 
-export async function getPosts() {
+// Retrieve all post, defaults set in parameters
+export const getPosts = async (page=1, limit=7, order="published_at desc", include=['tags,authors']) => {
+
   return await api.posts
     .browse({
-      limit: 'all',
+      page, limit, include, order
     })
-    .catch((err) => {
-      console.error(err)
-    })
+    .catch(err => {
+      console.error(err);
+    });
 }
 
-export async function getHomePosts() {
+export const getPostsByFilter = async (filter, page=1, limit=7, order="published_at desc", include=['tags,authors']) => {
   return await api.posts
     .browse({
-      limit: 3,
-      include: 'tags,authors',
+      page, limit, include, filter, order
     })
-    .catch((err) => {
-      console.error(err)
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+// Retrieve site settings, equivalent to @site in handlebar
+export const getSiteSettings = async () => {
+  return await api.settings
+    .browse()
+    .catch(err => {
+      console.error(err);
     })
 }
 
-export async function getSinglePost(postSlug) {
-  return await api.posts
-    .read({
-      slug: postSlug,
-      include: 'tags,authors',
-    })
-    .catch((err) => {
-      console.error(err)
-    })
-}
-
-export async function getAuthors() {
-  return await api.authors
+// Retrieve slugs of all posts
+export const getPostSlugs = async () => {
+  const posts = await api.posts
     .browse({
-      limit: 'all',
+      fields: ['slug']
+    }).
+    catch(err => {
+      console.error(err);
     })
-    .catch((err) => {
-      console.error(err)
-    })
+
+  return posts.map(post => {
+    return post.slug
+  })
 }
 
-export async function getAuthor(authorSlug) {
-  return await api.authors
-    .read({
-      slug: authorSlug,
-    })
-    .catch((err) => {
-      console.error(err)
-    })
-}
-
-export async function getTags() {
-  return await api.tags
+// Retrieve slugs of all pages
+export const getPageSlugs = async () => {
+  const pages = await api.pages
     .browse({
-      limit: 'all',
+      fields: ['slug']
+    }).
+    catch(err => {
+      console.error(err);
     })
-    .catch((err) => {
-      console.error(err)
-    })
+
+  return pages.map(page => {
+    return page.slug
+  })
 }
 
-export async function getTag(tagSlug) {
-  return await api.tags
-    .read({
-      slug: tagSlug,
+// Retrieve Post by slug
+export const getPostBySlug = async (slug, include=['tags,authors']) => {
+  const post = await api.posts
+    .read({slug}, {include})
+    .catch(err => {
+      console.error(err);
     })
-    .catch((err) => {
-      console.error(err)
+
+  return post
+}
+
+// Retrieve Page by slug
+export const getPageBySlug = async (slug, include=['tags,authors']) => {
+  const post = await api.pages
+    .read({slug}, {include})
+    .catch(err => {
+
     })
+
+  return post
+}
+
+// Get author by slug
+const defaultAuthorFields = [
+  "name",
+  "profile_image",
+  "bio",
+  "cover_image",
+  "website",
+  "location",
+  "facebook",
+  "twitter",
+]
+export const getAuthorBySlug = async (slug, fields=[...defaultAuthorFields], include=['count.posts',"posts"]) => {
+  const author = await api.authors
+    .read({slug}, {fields, include})
+    .catch(err => {
+      console.error(err);
+    })
+  return author
+}
+
+// Get tag by slug
+const defaultTagFields = [
+  "name",
+  "feature_image",
+  "description",
+  "meta_title",
+  "meta_description"
+]
+export const getTagBySlug = async (slug, fields=[...defaultTagFields], include=['count.posts',"posts"]) => {
+  const author = await api.tags
+    .read({slug}, {fields, include})
+    .catch(err => {
+      console.error(err);
+    })
+  return author
 }
