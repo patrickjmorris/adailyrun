@@ -13,14 +13,14 @@ const PostCards = props => {
   } = post
 
   // adding string to make featuer image responseive
-  let srcset
-  if(feature_image) {
-    // Flag to check if image is ghost default image
-    if(!feature_image.includes("static.ghost.org")){
-      const sizes = [300, 600, 1000, 2000];
-      srcset = sizes.map(size => `${feature_image.replace('images', `images/size/w${size}`)} ${size}w`).join(', ');
-    }
-  }
+  // let srcset
+  // if(feature_image) {
+  //   // Flag to check if image is ghost default image
+  //   if(!feature_image.includes("static.ghost.org")){
+  //     const sizes = [300, 600, 1000, 2000];
+  //     srcset = sizes.map(size => `${feature_image.replace('images', `images/size/w${size}`)} ${size}w`).join(', ');
+  //   }
+  // }
 
 
   return (
@@ -32,7 +32,7 @@ const PostCards = props => {
             <Link href="/posts/[slug]" as={`/posts/${post.slug}`} >
               <a className="post-card-image-link">
                   <img className="post-card-image"
-                      srcSet={srcset}
+                      // srcSet={srcset}
                       sizes="(max-width: 1000px) 400px, 700px"
                       src= {`${feature_image}`}
                       alt={post.title}
