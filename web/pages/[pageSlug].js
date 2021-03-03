@@ -11,21 +11,21 @@ const Page = props => {
   const { page, site } = props
   const router = useRouter()
 
-  if(!isEmpty(page)){
-    const {
-      feature_image,
-    } = page
+  // if(!isEmpty(page)){
+  //   const {
+  //     feature_image,
+  //   } = page
 
-    // adding string to make featuer image responseive
-    let srcset
-    if(feature_image) {
-      // Flag to check if image is ghost default image
-      if(!feature_image.includes("static.ghost.org")){
-        const sizes = [300, 600, 1000, 2000];
-        srcset = sizes.map(size => `${feature_image.replace('images', `images/size/w${size}`)} ${size}w`).join(', ');
-      }
-    }
-  }
+  //   // adding string to make featuer image responseive
+  //   let srcset
+  //   if(feature_image) {
+  //     // Flag to check if image is ghost default image
+  //     if(!feature_image.includes("static.ghost.org")){
+  //       const sizes = [300, 600, 1000, 2000];
+  //       srcset = sizes.map(size => `${feature_image.replace('images', `images/size/w${size}`)} ${size}w`).join(', ');
+  //     }
+  //   }
+  // }
 
   if (!router.isFallback && isEmpty(page)) {
     return <Error statusCode={404} />
@@ -57,7 +57,7 @@ const Page = props => {
                   {page.feature_image && (
                     <figure className="post-full-image">
                       <img
-                        srcSet={srcset}
+                        // srcSet={srcset}
                         sizes="(max-width: 800px) 400px, (max-width: 1170px) 1170px, 2000px"
                         src={`${page.feature_image}`}
                         alt={page.title}
