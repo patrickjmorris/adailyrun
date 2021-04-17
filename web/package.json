@@ -7,26 +7,29 @@
     "start": "next start"
   },
   "dependencies": {
-    "@tailwindcss/aspect-ratio": "^0.2.0",
-    "@tailwindcss/forms": "^0.2.1",
-    "@tailwindcss/typography": "^0.3.1",
     "@tryghost/admin-api": "^1.3.7",
     "@tryghost/content-api": "^1.4.13",
     "autoprefixer": "^10.1.0",
     "classnames": "2.2.6",
     "date-fns": "2.14.0",
+    "fitvids": "^2.1.1",
     "isomorphic-unfetch": "3.0.0",
+    "lodash": "^4.17.21",
     "next": "latest",
     "postcss": "^8.2.1",
+    "postcss-dir-pseudo-class": "^5.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-infinite-scroller": "^1.2.4",
     "remark": "12.0.0",
     "remark-html": "11.0.2"
   },
   "devDependencies": {
+    "postcss-color-mod-function": "^3.0.3",
+    "postcss-custom-properties": "^11.0.0",
+    "postcss-easy-import": "^3.0.0",
     "postcss-flexbugs-fixes": "4.2.1",
-    "postcss-preset-env": "^6.7.0",
-    "tailwindcss": "^2.0.2"
+    "postcss-preset-env": "^6.7.0"
   },
   "license": "MIT"
 }

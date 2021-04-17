@@ -1,7 +1,9 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 
 const HeaderBackground = ({ background, children }) => {
-  // adding string to make featuer image responseive
+  // adding string to make feature image responsive
   let srcset
   if(background) {
     // Flag to check if image is ghost default image
@@ -23,6 +25,7 @@ const HeaderBackground = ({ background, children }) => {
           .responsive-header-img {
               background-image: url(${background});
           }
+
           @media(max-width: 1000px) {
               .responsive-header-img {
                   background-image: url(${!isEmpty(srcset) ? srcset[2] : background});
@@ -30,6 +33,7 @@ const HeaderBackground = ({ background, children }) => {
                       url(${!isEmpty(srcset) ? srcset[3] : background}) 2x);
               }
           }
+
           @media(max-width: 600px) {
               .responsive-header-img {
                   background-image: url(${!isEmpty(srcset) ? srcset[1] : background});
@@ -41,6 +45,14 @@ const HeaderBackground = ({ background, children }) => {
       </style>
     </>
   )
+}
+
+HeaderBackground.propTypes = {
+    background: PropTypes.string
+}
+
+HeaderBackground.defaultProps = {
+    background: null
 }
 
 export default HeaderBackground

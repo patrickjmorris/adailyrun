@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import Head from 'next/head';
 
 // All meta tags can be added here
@@ -31,5 +33,19 @@ const OpenGraph = ({ title, description, image, router, type }) => (
     />
   </Head>
 );
+
+OpenGraph.propTypes = {
+  router: PropTypes.shape({
+    asPath: PropTypes.string.isRequired,
+  }).isRequired,
+  type: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  image: PropTypes.string,
+};
+
+OpenGraph.defaultProps = {
+  type: 'website',
+};
 
 export default OpenGraph;
