@@ -3,7 +3,6 @@ import Link from 'next/link'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 import ErrorPage from 'next/error'
-import Head from 'next/head'
 import SiteHeader from '../../components/partials/SiteHeader'
 import PostCards from '../../components/partials/PostCards'
 import { avatar } from '../../components/icons'
@@ -21,19 +20,6 @@ const Post = ({
   prev
 }) => {
   const router = useRouter()
-
-  // const {
-  //   feature_image,
-  // } = post
-  // // adding string to make featuer image responseive
-  // let srcset
-  // if(feature_image) {
-  //   // Flag to check if image is ghost default image
-  //   if(!feature_image.includes("static.ghost.org")){
-  //     const sizes = [300, 600, 1000, 2000];
-  //     srcset = sizes.map(size => `${feature_image.replace('images', `images/size/w${size}`)} ${size}w`).join(', ');
-  //   }
-  // }
 
   /**
     * Start Code Block - All code from this point to `End Code Block` indicator
@@ -145,6 +131,7 @@ const Post = ({
             image={post.og_image}
             title={post.meta_title}
           />
+          
           <div className="post-template">
             <header className="site-header">
               <SiteHeader {...{site, post, setRef: setNavRef}} />
@@ -267,7 +254,6 @@ const Post = ({
                   {post.feature_image && (
                     <figure className="post-full-image">
                       <img
-                        // srcSet={srcset}
                         sizes="(max-width: 800px) 400px, (max-width: 1170px) 1170px, 2000px"
                         src={`${post.feature_image}`}
                         alt={post.title}
