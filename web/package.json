@@ -28,7 +28,6 @@
     "postcss-color-mod-function": "^3.0.3",
     "postcss-custom-properties": "^11.0.0",
     "postcss-easy-import": "^3.0.0",
-    "postcss-flexbugs-fixes": "4.2.1",
     "postcss-preset-env": "^6.7.0"
   },
   "license": "MIT"

@@ -1,6 +1,5 @@
 module.exports = {
   "plugins": [
-    "postcss-flexbugs-fixes",
     "postcss-color-mod-function",
     "postcss-custom-properties",
     "postcss-easy-import",
